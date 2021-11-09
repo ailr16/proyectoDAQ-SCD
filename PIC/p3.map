@@ -1,0 +1,67 @@
+MPLINK 4.30.01, Linker
+Linker Map File - Created Mon Nov 08 23:34:21 2021
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000004
+                   .cinit    romdata   0x000004    program   0x000002
+                   .org_1       code   0x001000    program   0x000072
+   .config_300000_FORMA.O    romdata   0x300000    program   0x000001
+   .config_300001_FORMA.O    romdata   0x300001    program   0x000001
+   .config_300002_FORMA.O    romdata   0x300002    program   0x000001
+   .config_300003_FORMA.O    romdata   0x300003    program   0x000001
+   .config_300005_FORMA.O    romdata   0x300005    program   0x000001
+   .config_300006_FORMA.O    romdata   0x300006    program   0x000001
+   .config_300008_FORMA.O    romdata   0x300008    program   0x000001
+   .config_300009_FORMA.O    romdata   0x300009    program   0x000001
+   .config_30000A_FORMA.O    romdata   0x30000a    program   0x000001
+   .config_30000B_FORMA.O    romdata   0x30000b    program   0x000001
+   .config_30000C_FORMA.O    romdata   0x30000c    program   0x000001
+   .config_30000D_FORMA.O    romdata   0x30000d    program   0x000001
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000005      
+                            0x001000    0x001071      
+                            0x300000    0x300003      
+                            0x300005    0x300006      
+                            0x300008    0x30000d      
+            132 out of 33048 program addresses used, program memory utilization is 0%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     ETQ2   0x001060    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                     ETQ3   0x001062    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                     ETQ4   0x001064    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                   INICIO   0x001000    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+             RESET_VECTOR   0x000000    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                    T50ms   0x00105a    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                       a1   0x001028    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                     main   0x001026    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                      tx1   0x001046    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                      tx2   0x001050    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+             RESET_VECTOR   0x000000    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                   INICIO   0x001000    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                     main   0x001026    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                       a1   0x001028    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                      tx1   0x001046    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                      tx2   0x001050    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                    T50ms   0x00105a    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                     ETQ2   0x001060    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                     ETQ3   0x001062    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+                     ETQ4   0x001064    program     static C:\Users\angel\Documents\practica3\FORMA.asm
+
+
