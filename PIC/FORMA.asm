@@ -101,7 +101,7 @@ RESET_VECTOR	ORG		0
 
 	ORG		0x1000
 INICIO				; *** main code goes here **
-		movlw	0x03
+		movlw	b'00000011'
 		movwf	TRISA
 		movlw 	0x00
 		movwf	TRISB
@@ -109,6 +109,8 @@ INICIO				; *** main code goes here **
 
 		movlw	0x01
 		movwf	ADCON0
+		movlw	b'00001110'
+		movwf	ADCON1
 		movlw	b'00010101'
 		movwf	ADCON2
 
@@ -123,8 +125,10 @@ INICIO				; *** main code goes here **
 		bcf		BAUDCON, TXCKP	;No invertida
 		bcf		PIE1, TXIE
 
-		resH	equ		0x10
-		resL	equ		0x11
+resH	equ		0x10
+resL	equ		0x11
+bot		equ		0x12
+
 
 main:
 		bsf		ADCON0, 1
@@ -137,7 +141,9 @@ a1:		btfss	ADCON0, 1
 		andlw	0xC0
 		movwf	resL
 		movwf	PORTD
-		movff	resH, TXREG		;Transmite primer byte
+b1:		btfsc	PORTA, 1		;Condicion para transmitir
+		goto	main
+txA		movff	resH, TXREG		;Transmite primer byte
 tx1:	btfss	TXSTA, TRMT		;Verifica que el registro
 		goto 	tx1				;esta vacio
 		movff	resL, TXREG		;Transmite segundo byte
