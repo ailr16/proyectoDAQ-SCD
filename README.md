@@ -7,7 +7,7 @@ Características:
                    /                 \
     Microcontrolador PIC         Microcontrolador MSP430
 
-Instituto Politécnico Nacional
-Escuela Superior de Ingeniería Mecánica y Eléctrica
-Sistemas de Adquisición de Datos
-Noviembre de 2021
+Instituto Politécnico Nacional</p>
+Escuela Superior de Ingeniería Mecánica y Eléctrica</p>
+Sistemas de Adquisición de Datos</p>
+Noviembre de 2021</p>
