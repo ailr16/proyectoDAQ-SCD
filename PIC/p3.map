@@ -1,12 +1,12 @@
 MPLINK 4.30.01, Linker
-Linker Map File - Created Tue Nov 09 12:12:01 2021
+Linker Map File - Created Tue Nov 09 20:57:18 2021
 
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
                 ---------  ---------  ---------  ---------  ---------
                    .org_0       code   0x000000    program   0x000004
                    .cinit    romdata   0x000004    program   0x000002
-                   .org_1       code   0x001000    program   0x000064
+                   .org_1       code   0x001000    program   0x000072
    .config_300000_FORMA.O    romdata   0x300000    program   0x000001
    .config_300001_FORMA.O    romdata   0x300001    program   0x000001
    .config_300002_FORMA.O    romdata   0x300002    program   0x000001
@@ -26,11 +26,11 @@ Linker Map File - Created Tue Nov 09 12:12:01 2021
                                Start         End      
                            ---------   ---------      
                             0x000000    0x000005      
-                            0x001000    0x001063      
+                            0x001000    0x001071      
                             0x300000    0x300003      
                             0x300005    0x300006      
                             0x300008    0x30000d      
-            118 out of 33048 program addresses used, program memory utilization is 0%
+            132 out of 33048 program addresses used, program memory utilization is 0%
 
 
 
@@ -39,12 +39,10 @@ Linker Map File - Created Tue Nov 09 12:12:01 2021
                 ---------  ---------  ---------  --------- ---------                
                    INICIO   0x001000    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
              RESET_VECTOR   0x000000    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
-                       a1   0x00102c    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
-                       b1   0x001046    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
-                     main   0x00102a    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
-                      tx1   0x001050    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
-                      tx2   0x00105a    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
-                      txA   0x00104c    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
+                       a1   0x00102e    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
+                     main   0x00102c    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
+                      tx1   0x00105e    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
+                      tx2   0x001068    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
 
 
 
@@ -53,11 +51,9 @@ Linker Map File - Created Tue Nov 09 12:12:01 2021
                 ---------  ---------  ---------  --------- ---------                
              RESET_VECTOR   0x000000    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
                    INICIO   0x001000    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
-                     main   0x00102a    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
-                       a1   0x00102c    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
-                       b1   0x001046    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
-                      txA   0x00104c    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
-                      tx1   0x001050    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
-                      tx2   0x00105a    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
+                     main   0x00102c    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
+                       a1   0x00102e    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
+                      tx1   0x00105e    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
+                      tx2   0x001068    program     static C:\Users\angel\Documents\GitHub\proyectoDAQ-SCD\PIC\FORMA.asm
 
 

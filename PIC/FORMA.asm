@@ -101,34 +101,34 @@ RESET_VECTOR	ORG		0
 
 	ORG		0x1000
 INICIO				; *** main code goes here **
-		movlw	b'00000011'
-		movwf	TRISA
+		movlw	b'00000011'			
+		movwf	TRISA				;RA0 y RA1 entradas
 		movlw 	0x00
-		movwf	TRISB
-		movwf	TRISD
+		movwf	TRISB				;Puerto B salida
+		movwf	TRISD				;Puerto D salida
 
 		movlw	0x01
-		movwf	ADCON0
+		movwf	ADCON0				;Habilitar A0
 		movlw	b'00001110'
-		movwf	ADCON1
+		movwf	ADCON1				;Vref, E/S digitales/analogicas
 		movlw	b'00010101'
-		movwf	ADCON2
+		movwf	ADCON2				;Tiempo muestreo
 
 		movlw	b'11000000'
-		movwf	TRISC
-		clrf	SPBRGH
-		movlw 	0x4D
-		movwf	SPBRG
+		movwf	TRISC				;RC6 y RC7 entradas
+		clrf	SPBRGH				;Limpiar Byte H Baudrate Generator
+		movlw 	0x4D				
+		movwf	SPBRG				;9600baud a 48MHz
 		movlw	b'00100000'
-		movwf	TXSTA
-		bsf		RCSTA, SPEN
-		bcf		BAUDCON, TXCKP	;No invertida
-		bcf		PIE1, TXIE
+		movwf	TXSTA				;Habilitar transmisiones
+		movlw	0x90
+		movwf	RCSTA
+		bcf		BAUDCON, TXCKP		;Señal no invertida
+		bcf		PIE1, TXIE			;Deshabilitar interrupcion de Tx
 
-resH	equ		0x10
-resL	equ		0x11
-bot		equ		0x12
-
+resH	equ		0x10				;Guardar byte H del resultado ADC
+resL	equ		0x11				;Guardar byte L del resultado ADC
+rxres	equ		0x12				;Guardar resultado de recepcion
 
 main:
 		bsf		ADCON0, 1
@@ -141,9 +141,14 @@ a1:		btfss	ADCON0, 1
 		andlw	0xC0
 		movwf	resL
 		movwf	PORTD
-b1:		btfsc	PORTA, 1		;Condicion para transmitir
+		btfss	PIR1, RCIF		;Comprueba si se recibio un byte
 		goto	main
-txA		movff	resH, TXREG		;Transmite primer byte
+		clrf	rxres
+		movf	RCREG, W		;Guarda el byte recibido (limpia RCIF)
+		movwf	rxres
+		btfss	rxres, 0		;Condicion para transmitir
+		goto	main
+		movff	resH, TXREG		;Transmite primer byte
 tx1:	btfss	TXSTA, TRMT		;Verifica que el registro
 		goto 	tx1				;esta vacio
 		movff	resL, TXREG		;Transmite segundo byte
