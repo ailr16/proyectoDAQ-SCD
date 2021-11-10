@@ -126,9 +126,12 @@ INICIO				; *** main code goes here **
 		bcf		BAUDCON, TXCKP		;Señal no invertida
 		bcf		PIE1, TXIE			;Deshabilitar interrupcion de Tx
 
-resH	equ		0x10				;Guardar byte H del resultado ADC
-resL	equ		0x11				;Guardar byte L del resultado ADC
-rxres	equ		0x12				;Guardar resultado de recepcion
+resH	equ		0x20				;Guardar byte H del resultado ADC
+resL	equ		0x21				;Guardar byte L del resultado ADC
+rxres	equ		0x22				;Guardar resultado de recepcion
+R0		equ		0x19
+R1		equ		0x11
+R2		equ		0x12
 
 main:
 		bsf		ADCON0, 1
@@ -155,7 +158,6 @@ tx1:	btfss	TXSTA, TRMT		;Verifica que el registro
 tx2:	btfss	TXSTA, TRMT
 		goto 	tx2
 		goto 	main
-
 					; end of main	
 ;******************************************************************************
 ; Espacio para subrutinas

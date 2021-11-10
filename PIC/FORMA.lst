@@ -1,4 +1,4 @@
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE  1
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00042     CONFIG FOSC     = HSPLL_HS
                       00043     CONFIG FCMEN    = OFF
                       00044     CONFIG IESO     = OFF
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE  2
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -116,7 +116,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00089 ; Reset vector
                       00090 ; Esta sección se ejecutara cuando ocurra un RESET.
                       00091 
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE  3
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -159,52 +159,54 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 001028 98B8           00126                 bcf             BAUDCON, TXCKP          ;Señal no invertida
 00102A 989D           00127                 bcf             PIE1, TXIE                      ;Deshabilitar interrupcion de Tx
                       00128 
-  00000010            00129 resH    equ             0x10                            ;Guardar byte H del resultado ADC
-  00000011            00130 resL    equ             0x11                            ;Guardar byte L del resultado ADC
-  00000012            00131 rxres   equ             0x12                            ;Guardar resultado de recepcion
-                      00132 
-00102C                00133 main:
-00102C 82C2           00134                 bsf             ADCON0, 1
-00102E A2C2           00135 a1:             btfss   ADCON0, 1
-001030 EF?? F???      00136                 goto    a1
-001034 CFC4 F010      00137                 movff   ADRESH, resH
-001038 CFC3 F011      00138                 movff   ADRESL, resL
-00103C C010 FF81      00139                 movff   resH, PORTB
-001040 5011           00140                 movf    resL, W
-001042 0BC0           00141                 andlw   0xC0
-001044 6E11           00142                 movwf   resL
-001046 6E83           00143                 movwf   PORTD
-001048 AA9E           00144                 btfss   PIR1, RCIF              ;Comprueba si se recibio un byte
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE  4
+  00000020            00129 resH    equ             0x20                            ;Guardar byte H del resultado ADC
+  00000021            00130 resL    equ             0x21                            ;Guardar byte L del resultado ADC
+  00000022            00131 rxres   equ             0x22                            ;Guardar resultado de recepcion
+  00000019            00132 R0              equ             0x19
+  00000011            00133 R1              equ             0x11
+  00000012            00134 R2              equ             0x12
+                      00135 
+00102C                00136 main:
+00102C 82C2           00137                 bsf             ADCON0, 1
+00102E A2C2           00138 a1:             btfss   ADCON0, 1
+001030 EF?? F???      00139                 goto    a1
+001034 CFC4 F020      00140                 movff   ADRESH, resH
+001038 CFC3 F021      00141                 movff   ADRESL, resL
+00103C C020 FF81      00142                 movff   resH, PORTB
+001040 5021           00143                 movf    resL, W
+001042 0BC0           00144                 andlw   0xC0
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-00104A EF?? F???      00145                 goto    main
-00104E 6A12           00146                 clrf    rxres
-001050 50AE           00147                 movf    RCREG, W                ;Guarda el byte recibido (limpia RCIF)
-001052 6E12           00148                 movwf   rxres
-001054 A012           00149                 btfss   rxres, 0                ;Condicion para transmitir
-001056 EF?? F???      00150                 goto    main
-00105A C010 FFAD      00151                 movff   resH, TXREG             ;Transmite primer byte
-00105E A2AC           00152 tx1:    btfss   TXSTA, TRMT             ;Verifica que el registro
-001060 EF?? F???      00153                 goto    tx1                             ;esta vacio
-001064 C011 FFAD      00154                 movff   resL, TXREG             ;Transmite segundo byte
-001068 A2AC           00155 tx2:    btfss   TXSTA, TRMT
-00106A EF?? F???      00156                 goto    tx2
-00106E EF?? F???      00157                 goto    main
-                      00158 
-                      00159                                         ; end of main   
-                      00160 ;******************************************************************************
-                      00161 ; Espacio para subrutinas
+001044 6E21           00145                 movwf   resL
+001046 6E83           00146                 movwf   PORTD
+001048 AA9E           00147                 btfss   PIR1, RCIF              ;Comprueba si se recibio un byte
+00104A EF?? F???      00148                 goto    main
+00104E 6A22           00149                 clrf    rxres
+001050 50AE           00150                 movf    RCREG, W                ;Guarda el byte recibido (limpia RCIF)
+001052 6E22           00151                 movwf   rxres
+001054 A022           00152                 btfss   rxres, 0                ;Condicion para transmitir
+001056 EF?? F???      00153                 goto    main
+00105A C020 FFAD      00154                 movff   resH, TXREG             ;Transmite primer byte
+00105E A2AC           00155 tx1:    btfss   TXSTA, TRMT             ;Verifica que el registro
+001060 EF?? F???      00156                 goto    tx1                             ;esta vacio
+001064 C021 FFAD      00157                 movff   resL, TXREG             ;Transmite segundo byte
+001068 A2AC           00158 tx2:    btfss   TXSTA, TRMT
+00106A EF?? F???      00159                 goto    tx2
+00106E EF?? F???      00160                 goto    main
+                      00161                                         ; end of main   
                       00162 ;******************************************************************************
-                      00163 
-                      00164                                         
-                      00165 ;******************************************************************************
-                      00166 ;Fin del programa
-                      00167         END
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE  5
+                      00163 ; Espacio para subrutinas
+                      00164 ;******************************************************************************
+                      00165 
+                      00166                                         
+                      00167 ;******************************************************************************
+                      00168 ;Fin del programa
+                      00169         END
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE  5
 
 
 SYMBOL TABLE
@@ -263,7 +265,7 @@ BRGH                              00000002
 BSR                               00000FE0
 BTOEE                             00000004
 BTOEF                             00000004
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE  6
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE  6
 
 
 SYMBOL TABLE
@@ -322,7 +324,7 @@ CMCON                             00000FB4
 CMIE                              00000006
 CMIF                              00000006
 CMIP                              00000006
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE  7
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE  7
 
 
 SYMBOL TABLE
@@ -381,7 +383,7 @@ ENDP0                             00000003
 ENDP1                             00000004
 ENDP2                             00000005
 ENDP3                             00000006
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE  8
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE  8
 
 
 SYMBOL TABLE
@@ -440,7 +442,7 @@ I2C_STOP                          00000004
 IDLEIE                            00000004
 IDLEIF                            00000004
 IDLEN                             00000007
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE  9
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE  9
 
 
 SYMBOL TABLE
@@ -499,7 +501,7 @@ LATB1                             00000001
 LATB2                             00000002
 LATB3                             00000003
 LATB4                             00000004
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE 10
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE 10
 
 
 SYMBOL TABLE
@@ -558,7 +560,7 @@ NOT_W                             00000002
 NOT_WRITE                         00000002
 OERR                              00000001
 OESPP                             00000002
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE 11
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE 11
 
 
 SYMBOL TABLE
@@ -617,7 +619,7 @@ POSTDEC0                          00000FED
 POSTDEC1                          00000FE5
 POSTDEC2                          00000FDD
 POSTINC0                          00000FEE
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE 12
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE 12
 
 
 SYMBOL TABLE
@@ -643,6 +645,9 @@ PSSAC1                            00000003
 PSSBD0                            00000000
 PSSBD1                            00000001
 R                                 00000002
+R0                                00000019
+R1                                00000011
+R2                                00000012
 RA0                               00000000
 RA1                               00000001
 RA2                               00000002
@@ -673,15 +678,15 @@ RCEN                              00000003
 RCIDL                             00000006
 RCIE                              00000005
 RCIF                              00000005
-RCIP                              00000005
-RCMT                              00000006
-RCON                              00000FD0
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE 13
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE 13
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+RCIP                              00000005
+RCMT                              00000006
+RCON                              00000FD0
 RCREG                             00000FAE
 RCSTA                             00000FAB
 RD                                00000000
@@ -732,15 +737,15 @@ SPP4                              00000004
 SPP5                              00000005
 SPP6                              00000006
 SPP7                              00000007
-SPPBUSY                           00000004
-SPPCFG                            00000F63
-SPPCON                            00000F65
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE 14
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE 14
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+SPPBUSY                           00000004
+SPPCFG                            00000F63
+SPPCON                            00000F65
 SPPDATA                           00000F62
 SPPEN                             00000000
 SPPEPS                            00000F64
@@ -791,15 +796,15 @@ T0PS2                             00000002
 T0SE                              00000004
 T13CKI                            00000000
 T1CKPS0                           00000004
-T1CKPS1                           00000005
-T1CON                             00000FCD
-T1OSCEN                           00000003
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE 15
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE 15
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+T1CKPS1                           00000005
+T1CON                             00000FCD
+T1OSCEN                           00000003
 T1OSI                             00000001
 T1OSO                             00000000
 T1RUN                             00000006
@@ -850,15 +855,15 @@ TMR3L                             00000FB2
 TMR3ON                            00000000
 TO                                00000003
 TOS                               00000FFD
-TOSH                              00000FFE
-TOSL                              00000FFD
-TOSU                              00000FFF
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE 16
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE 16
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+TOSH                              00000FFE
+TOSL                              00000FFD
+TOSU                              00000FFF
 TRISA                             00000F92
 TRISA0                            00000000
 TRISA1                            00000001
@@ -909,15 +914,15 @@ TX9D                              00000000
 TXCKP                             00000004
 TXEN                              00000005
 TXIE                              00000004
-TXIF                              00000004
-TXIP                              00000004
-TXREG                             00000FAD
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE 17
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE 17
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+TXIF                              00000004
+TXIP                              00000004
+TXREG                             00000FAD
 TXSTA                             00000FAC
 UA                                00000001
 UADDR                             00000F6E
@@ -968,15 +973,15 @@ W                                 00000000
 WCOL                              00000007
 WDTCON                            00000FD1
 WR                                00000001
-WREG                              00000FE8
-WREN                              00000002
-WRERR                             00000003
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE 18
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE 18
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+WREG                              00000FE8
+WREN                              00000002
+WRERR                             00000003
 WRSPP                             00000006
 WS0                               00000000
 WS1                               00000001
@@ -1027,15 +1032,15 @@ _DEBUG_ON_4L                      0000007F
 _DEVID1                           003FFFFE
 _DEVID2                           003FFFFF
 _EBTR0_OFF_7L                     000000FF
-_EBTR0_ON_7L                      000000FE
-_EBTR1_OFF_7L                     000000FF
-_EBTR1_ON_7L                      000000FD
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE 19
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE 19
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+_EBTR0_ON_7L                      000000FE
+_EBTR1_OFF_7L                     000000FF
+_EBTR1_ON_7L                      000000FD
 _EBTR2_OFF_7L                     000000FF
 _EBTR2_ON_7L                      000000FB
 _EBTR3_OFF_7L                     000000FF
@@ -1086,15 +1091,15 @@ _PLLDIV_5_1L                      000000FC
 _PLLDIV_6_1L                      000000FD
 _PWRT_OFF_2L                      000000FF
 _PWRT_ON_2L                       000000FE
-_STVREN_OFF_4L                    000000FE
-_STVREN_ON_4L                     000000FF
-_USBDIV_1_1L                      000000DF
-MPASM  5.30.01                         FORMA.ASM   11-9-2021  20:57:17         PAGE 20
+MPASM  5.30.01                         FORMA.ASM   11-9-2021  23:08:27         PAGE 20
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+_STVREN_OFF_4L                    000000FE
+_STVREN_ON_4L                     000000FF
+_USBDIV_1_1L                      000000DF
 _USBDIV_2_1L                      000000FF
 _VREGEN_OFF_2L                    000000DF
 _VREGEN_ON_2L                     000000FF
@@ -1135,9 +1140,9 @@ _XINST_ON_4L                      000000FF
 __18F4550                         00000001
 a1                                0000102E
 main                              0000102C
-resH                              00000010
-resL                              00000011
-rxres                             00000012
+resH                              00000020
+resL                              00000021
+rxres                             00000022
 tx1                               0000105E
 tx2                               00001068
 
