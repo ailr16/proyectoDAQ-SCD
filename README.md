@@ -5,7 +5,7 @@ Características:
 
                    Computadora central
                    /                 \
-    Microcontrolador PIC         Microcontrolador MSP430
+    Microcontrolador PIC18         Microcontrolador PIC16
             |                             |
           Planta                        Planta
 
