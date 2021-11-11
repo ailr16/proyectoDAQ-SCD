@@ -125,11 +125,12 @@ INICIO				; *** main code goes here **
 		movwf	RCSTA
 		bcf		BAUDCON, TXCKP		;Señal no invertida
 		bcf		PIE1, TXIE			;Deshabilitar interrupcion de Tx
+		bsf		PORTC, 2
 
 resH	equ		0x20				;Guardar byte H del resultado ADC
 resL	equ		0x21				;Guardar byte L del resultado ADC
 rxres	equ		0x22				;Guardar resultado de recepcion
-R0		equ		0x19
+R0		equ		0x10
 R1		equ		0x11
 R2		equ		0x12
 
@@ -151,19 +152,33 @@ a1:		btfss	ADCON0, 1
 		movwf	rxres
 		btfss	rxres, 0		;Condicion para transmitir
 		goto	main
+		bcf		PORTC, 2
 		movff	resH, TXREG		;Transmite primer byte
 tx1:	btfss	TXSTA, TRMT		;Verifica que el registro
 		goto 	tx1				;esta vacio
 		movff	resL, TXREG		;Transmite segundo byte
 tx2:	btfss	TXSTA, TRMT
 		goto 	tx2
+
+		movlw	0x07
+		movwf	R0
+		movlw	0xFF
+ETQ2:	movwf	R1
+ETQ3:	movwf	R2
+ETQ4:	decf	R2,1
+		bnz		ETQ4
+		decf 	R1,1
+		bnz		ETQ3
+		decf	R0,1
+		bnz		ETQ2
+	
+		bsf		PORTC, 2
 		goto 	main
 					; end of main	
 ;******************************************************************************
 ; Espacio para subrutinas
 ;******************************************************************************
-
-					
+		
 ;******************************************************************************
 ;Fin del programa
 	END
