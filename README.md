@@ -5,7 +5,7 @@ Características:
 
                    Computadora central
                    /                 \
-    Microcontrolador PIC18         Microcontrolador PIC16
+    Microcontrolador PIC18         Microcontrolador ATMEGA
             |                             |
           Planta                        Planta
 
