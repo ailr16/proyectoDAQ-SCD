@@ -101,7 +101,7 @@ RESET_VECTOR	ORG		0
 
 	ORG		0x1000
 INICIO				; *** main code goes here **
-		movlw	b'00000011'			
+		movlw	0x03			
 		movwf	TRISA				;RA0 y RA1 entradas
 		movlw 	0x00
 		movwf	TRISB				;Puerto B salida
@@ -109,70 +109,54 @@ INICIO				; *** main code goes here **
 
 		movlw	0x01
 		movwf	ADCON0				;Habilitar A0
-		movlw	b'00001110'
+		movlw	0x0E
 		movwf	ADCON1				;Vref, E/S digitales/analogicas
-		movlw	b'00010101'
+		movlw	0x15
 		movwf	ADCON2				;Tiempo muestreo
 
-		movlw	b'11000000'
+		movlw	0xC0
 		movwf	TRISC				;RC6 y RC7 entradas
 		clrf	SPBRGH				;Limpiar Byte H Baudrate Generator
-		movlw 	0x4D				
+		movlw 	0x4E				
 		movwf	SPBRG				;9600baud a 48MHz
-		movlw	b'00100000'
+		movlw	0x20
 		movwf	TXSTA				;Habilitar transmisiones
 		movlw	0x90
 		movwf	RCSTA
 		bcf		BAUDCON, TXCKP		;Señal no invertida
 		bcf		PIE1, TXIE			;Deshabilitar interrupcion de Tx
-		bsf		PORTC, 2
+		bcf		PORTC, 2
 
-resH	equ		0x20				;Guardar byte H del resultado ADC
-resL	equ		0x21				;Guardar byte L del resultado ADC
-rxres	equ		0x22				;Guardar resultado de recepcion
-R0		equ		0x10
-R1		equ		0x11
-R2		equ		0x12
+resH	equ		0x20				;Para guardar byte H del resultado ADC
+resL	equ		0x21				;Para guardar byte L del resultado ADC
+rxres	equ		0x22				;Para guardar resultado de recepcion
 
 main:
-		bsf		ADCON0, 1
-a1:		btfss	ADCON0, 1
-		goto 	a1
-		movff	ADRESH, resH
-		movff	ADRESL, resL
-		movff	resH, PORTB
+		bsf		ADCON0, 1			;Inicia conversion AD
+a1:		btfss	ADCON0, 1			;Si la conversion no ha terminado
+		goto 	a1					;Volver a comprobar
+		movff	ADRESH, resH		;Guardar byte H del resultado ADC
+		movff	ADRESL, resL		;Guardar byte L del resultado ADC
+		movff	resH, PORTB			;Enviar byte H ADC al puerto B
 		movf	resL, W
-		andlw	0xC0
+		andlw	0xC0				;Enmascarar bits del byte L ADC
 		movwf	resL
-		movwf	PORTD
-		btfss	PIR1, RCIF		;Comprueba si se recibio un byte
+		movwf	PORTD				;Enviar byte L ADC al puerto D
+		btfss	PIR1, RCIF			;Comprueba si se recibio un byte
 		goto	main
-		clrf	rxres
-		movf	RCREG, W		;Guarda el byte recibido (limpia RCIF)
+		clrf	rxres				;Limpiar registro de recepcion
+		movf	RCREG, W			;Guarda el byte recibido (limpia RCIF)
 		movwf	rxres
-		btfss	rxres, 0		;Condicion para transmitir
+		btfss	rxres, 0			;Condicion para transmitir
 		goto	main
-		bcf		PORTC, 2
-		movff	resH, TXREG		;Transmite primer byte
-tx1:	btfss	TXSTA, TRMT		;Verifica que el registro
-		goto 	tx1				;esta vacio
-		movff	resL, TXREG		;Transmite segundo byte
+		bsf		PORTC, 2			;Bit 2 puerto C estado alto
+		movff	resH, TXREG			;Transmite primer byte
+tx1:	btfss	TXSTA, TRMT			;Verifica que el registro
+		goto 	tx1					;esta vacio
+		movff	resL, TXREG			;Transmite segundo byte
 tx2:	btfss	TXSTA, TRMT
 		goto 	tx2
-
-		movlw	0x07
-		movwf	R0
-		movlw	0xFF
-ETQ2:	movwf	R1
-ETQ3:	movwf	R2
-ETQ4:	decf	R2,1
-		bnz		ETQ4
-		decf 	R1,1
-		bnz		ETQ3
-		decf	R0,1
-		bnz		ETQ2
-	
-		bsf		PORTC, 2
+		bcf		PORTC, 2			;Bit 2 puerto C estado bajo
 		goto 	main
 					; end of main	
 ;******************************************************************************

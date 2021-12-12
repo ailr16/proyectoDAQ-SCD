@@ -2,14 +2,16 @@ import tkinter
 import tkinter.font as tkFont
 import serial
 
-ser = serial.Serial(port='COM4', baudrate=9600, timeout = 1)
+ser = serial.Serial(port='COM7', baudrate=9600, timeout = 1)
 
 ventana = tkinter.Tk()
 ventana.title("App")
 
 byte_d1H = ''
 byte_d1L = ''
-byte_d2 = ''
+
+byte_d2H = ''
+byte_d2H = ''
 
 def salir():
     ser.close()
@@ -38,8 +40,7 @@ def solicita_transmision_1():
     byte_d1L = ser.read()
     label_d1_muestraL["text"] = format(int.from_bytes(byte_d1L, "big"),'08b')
     label_d1_muestraH["text"] = format(int.from_bytes(byte_d1H, "big"),'08b')
-
-
+    
 boton_muestra_d1 = tkinter.Button(ventana, text = "Solicita una muestra", command = solicita_transmision_1)
 boton_muestra_d1.place(relx = 0.07, rely = 0.27)
 
